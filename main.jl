@@ -1,8 +1,10 @@
 module Bot
 
+# import data.jl file
 include("data.jl")
 using .Data
 
+# import packages
 using Discord
 using Dates
 
