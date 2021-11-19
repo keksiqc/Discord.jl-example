@@ -15,11 +15,43 @@ function ping(bot::Client, msg::Message)
     reply(bot, msg, "pong")
 end
 
+function embed(bot::Client, msg::Message)
+    reply(bot, msg, Embed(title="Title", 
+                          description="Description",
+                          url="https://discord.com/",
+                          # timestamp=now(), 
+                          color=16716947, 
+                          footer=(EmbedFooter(text="Footer Text",
+                                              icon_url="https://i.imgur.com/FPznEhE.gif")),
+                          image=(EmbedImage(url="https://i.imgur.com/VDemIRj.jpeg", # Alternative video=(EmbedVideo(url=String, height=Int, width=Int))
+                                            height=50,
+                                            width=50)),
+                          thumbnail=(EmbedThumbnail(url="https://i.imgur.com/VDemIRj.jpeg",
+                                                    height=50,
+                                                    width=50)),
+                          # provider=(EmbedProvider(name="Provider Name",
+                          #                         url="https://discord.com/")),
+                          author=(EmbedAuthor(name="Author Name",
+                                              url="https://discord.com/", 
+                                              icon_url="https://i.imgur.com/FPznEhE.gif"
+                                              )),
+                          fields=([
+                                    EmbedField(name="Field 1 Name",
+                                               value="Field 1 Value",
+                                               inline=true),
+                                    EmbedField(name="Field 2 Name",
+                                               value="Field 2 Value",
+                                               inline=true)
+                                 ])
+                         ))
+end
+
 function main()
     bot = Client(Data.token; prefix="!")
     
     add_handler!(bot, MessageCreate, on_message_create)
     add_command!(bot, :ping, ping)
+    add_command!(bot, :embed, embed)
 
     open(bot)
     return bot
