@@ -14,6 +14,20 @@ function on_message_create(bot::Client, ctx::MessageCreate, )
     println("[$time] $(ctx.message.author.username)#$(ctx.message.author.discriminator): $(ctx.message.content)")
 end
 
+# Member join
+function on_member_add(bot::Client, guildMember::GuildMemberAdd)
+    guild_id = guildMember.guild_id
+    member = guildMember.member
+    println("$guild_id, $(member.username)")
+end
+
+# Member leave
+function on_member_remove(bot::Client, guildMember::GuildMemberRemove)
+    guild_id = guildMember.guild_id
+    user = guildMember.user
+    println("$guild_id, $(user.username)")
+end
+
 # Basic command
 function ping(bot::Client, msg::Message)
     reply(bot, msg, "pong")
@@ -55,8 +69,12 @@ function main()
     # Client declaration
     bot = Client(Data.token; prefix="!")
     
-    # Add commands and events/handler
+    # Add events/handler
     add_handler!(bot, MessageCreate, on_message_create)
+    add_handler!(bot, GuildMemberAdd, on_member_add)
+    add_handler!(bot, GuildMemberRemove, on_member_remove)
+
+    # Add commands
     add_command!(bot, :ping, ping)
     add_command!(bot, :embed, embed)
 
