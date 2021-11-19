@@ -19,6 +19,7 @@ function ping(bot::Client, msg::Message)
     reply(bot, msg, "pong")
 end
 
+# Discord Embed
 function embed(bot::Client, msg::Message)
     reply(bot, msg, Embed(title="Title", 
                           description="Description",
